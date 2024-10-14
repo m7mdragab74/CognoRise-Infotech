@@ -1,6 +1,9 @@
-import 'package:calculator_app/constant.dart';
+import 'package:calculator_app/widget/botton_gird.dart';
+import 'package:calculator_app/widget/history_area.dart';
+import 'package:calculator_app/widget/input_out_area.dart';
 import 'package:flutter/material.dart';
 import 'package:math_expressions/math_expressions.dart';
+import 'package:flutter/services.dart'; // For vibration feedback
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -10,16 +13,17 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
-  double firstNum = 0.0;
-  double secondNum = 0.0;
   String input = "";
   String output = "";
-  String operation = "";
   bool hideInput = false;
   double outputSize = 34.0;
+  bool isDarkMode = true;
+  List<String> history = []; // To track calculation history
 
   // Method to handle button clicks
   void onButtonClick(String value) {
+    HapticFeedback.lightImpact(); // Vibration feedback on button press
+
     if (value == "AC") {
       input = "";
       output = "";
@@ -43,8 +47,9 @@ class _HomeViewState extends State<HomeView> {
           input = output;
           hideInput = true;
           outputSize = 52;
+          history.add("$userInput = $output"); // Add to history
         } catch (e) {
-          output = "Error";
+          output = "Invalid Expression";
         }
       }
     } else {
@@ -56,119 +61,61 @@ class _HomeViewState extends State<HomeView> {
     setState(() {});
   }
 
+  // Clear entire history
+  void clearHistory() {
+    setState(() {
+      history.clear();
+    });
+  }
+
+  // Delete a specific history entry
+  void deleteHistoryEntry(int index) {
+    setState(() {
+      history.removeAt(index);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
-      body: Column(
-        children: [
-          // Input and output area
-          Expanded(
-            child: Container(
-              width: double.infinity,
-              padding: const EdgeInsets.all(12),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Text(
-                    hideInput ? "" : input,
-                    style: const TextStyle(
-                      fontSize: 48,
-                      color: Colors.white,
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  Text(
-                    output,
-                    style: TextStyle(
-                      fontSize: outputSize,
-                      color: Colors.white.withOpacity(0.7),
-                    ),
-                  ),
-                  const SizedBox(height: 30),
-                ],
+      backgroundColor: isDarkMode ? Colors.black : Colors.white,
+      body: SafeArea(
+        child: Column(
+          children: [
+            // Toggle theme button
+            Align(
+              alignment: Alignment.topRight,
+              child: IconButton(
+                icon: Icon(isDarkMode ? Icons.wb_sunny : Icons.nights_stay),
+                color: isDarkMode ? Colors.white : Colors.black,
+                onPressed: () {
+                  setState(() {
+                    isDarkMode = !isDarkMode;
+                  });
+                },
               ),
             ),
-          ),
-          // Buttons area
-          Row(
-            children: [
-              button(
-                  text: "AC",
-                  buttonBgColor: operatorColor,
-                  tColor: orangeColor),
-              button(
-                  text: "<", buttonBgColor: operatorColor, tColor: orangeColor),
-              button(
-                  text: "/", buttonBgColor: operatorColor, tColor: orangeColor),
-              button(
-                  text: "x", buttonBgColor: operatorColor, tColor: orangeColor),
-            ],
-          ),
-          Row(
-            children: [
-              button(text: "7"),
-              button(text: "8"),
-              button(text: "9"),
-              button(
-                  text: "-", buttonBgColor: operatorColor, tColor: orangeColor),
-            ],
-          ),
-          Row(
-            children: [
-              button(text: "4"),
-              button(text: "5"),
-              button(text: "6"),
-              button(
-                  text: "+", buttonBgColor: operatorColor, tColor: orangeColor),
-            ],
-          ),
-          Row(
-            children: [
-              button(text: "1"),
-              button(text: "2"),
-              button(text: "3"),
-              button(
-                  text: "%", buttonBgColor: operatorColor, tColor: orangeColor),
-            ],
-          ),
-          Row(
-            children: [
-              button(text: "0"),
-              button(text: "."),
-              button(text: "=", buttonBgColor: orangeColor),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-
-  // Button widget generator
-  Widget button(
-      {required String text,
-      Color tColor = Colors.white,
-      Color buttonBgColor = buttonColor}) {
-    return Expanded(
-      child: Container(
-        margin: const EdgeInsets.all(8),
-        child: ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-            backgroundColor: buttonBgColor,
-            padding: const EdgeInsets.all(22),
-          ),
-          onPressed: () => onButtonClick(text),
-          child: Text(
-            text,
-            style: TextStyle(
-              fontSize: 18,
-              color: tColor,
-              fontWeight: FontWeight.bold,
+            // Input and output area
+            InputOutputArea(
+              input: input,
+              output: output,
+              hideInput: hideInput,
+              outputSize: outputSize,
+              isDarkMode: isDarkMode,
             ),
-          ),
+            // Buttons area
+            ButtonGrid(
+              onButtonClick: onButtonClick,
+              isDarkMode: isDarkMode,
+            ),
+            // Show calculation history with delete options
+            HistoryArea(
+              history: history,
+              isDarkMode: isDarkMode,
+              clearHistory: clearHistory,
+              deleteHistoryEntry: deleteHistoryEntry,
+            ),
+          ],
         ),
       ),
     );
