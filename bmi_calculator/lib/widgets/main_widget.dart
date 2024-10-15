@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
 
 class MainWidget extends StatelessWidget {
-  const MainWidget(
-    this.color,
-    this.cardChild,
-    this.onPress,
-  );
+  const MainWidget(this.color, this.cardChild, this.onPress, {super.key});
 
   final Color color;
   final Widget cardChild;
