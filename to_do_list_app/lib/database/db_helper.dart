@@ -58,7 +58,7 @@ class DbHelper {
 
   Future<int> deleteTask(int id) async {
     Database db = await createDatabase();
-    print('Deleting book with id: $id');
+    print('Deleting task with id: $id');
     int result = await db.delete('Tasks1', where: 'id = ?', whereArgs: [id]);
     print('Task deleted successfully. Deleted $result record(s).');
     return result;
