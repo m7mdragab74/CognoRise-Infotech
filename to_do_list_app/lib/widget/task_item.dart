@@ -3,8 +3,9 @@ import 'package:to_do_list_app/database/db_helper.dart';
 import 'package:to_do_list_app/model/db_model.dart';
 
 class TaskItem extends StatefulWidget {
-  const TaskItem({super.key, required this.task});
+  const TaskItem({super.key, required this.task, required this.onDelete});
   final Task task;
+  final VoidCallback onDelete;
 
   @override
   State<TaskItem> createState() => _TaskItemState();
@@ -22,6 +23,19 @@ class _TaskItemState extends State<TaskItem> {
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      trailing: IconButton(
+        onPressed: () async {
+          setState(() {});
+          var dbHelper = DbHelper();
+          await dbHelper.deleteTask(widget.task.id!);
+          widget.onDelete();
+        },
+        icon: Icon(
+          Icons.delete,
+          color: Colors.blue,
+          size: 30,
+        ),
+      ),
       contentPadding:
           const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
       leading: Transform.scale(

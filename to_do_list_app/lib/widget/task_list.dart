@@ -3,9 +3,10 @@ import 'package:to_do_list_app/model/db_model.dart';
 import 'package:to_do_list_app/widget/task_item.dart';
 
 class TaskList extends StatelessWidget {
-  const TaskList({super.key, required this.tasks});
+  const TaskList({super.key, required this.tasks, required this.onDelete});
 
   final List<Task> tasks;
+  final VoidCallback onDelete;
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +16,10 @@ class TaskList extends StatelessWidget {
             itemCount: tasks.length,
             itemBuilder: (context, index) {
               Task task = tasks[index];
-              return TaskItem(task: task);
+              return TaskItem(
+                task: task,
+                onDelete: onDelete,
+              );
             },
           );
   }

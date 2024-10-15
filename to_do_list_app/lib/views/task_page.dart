@@ -64,7 +64,10 @@ class _TaskPageState extends State<TaskPage> {
         children: [
           DateHeader(),
           Expanded(
-            child: TaskList(tasks: _tasks),
+            child: TaskList(
+              tasks: _tasks,
+              onDelete: _refreshTasks,
+            ),
           ),
         ],
       ),
