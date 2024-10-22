@@ -1,3 +1,4 @@
+import 'package:alarm_app/views/clock_view.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {
@@ -5,6 +6,12 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold();
+    return Scaffold(
+      body: Container(
+        alignment: Alignment.center,
+        color: Color(0xff2D2F41),
+        child: ClockView(),
+      ),
+    );
   }
 }
