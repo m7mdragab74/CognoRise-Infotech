@@ -1,38 +1,39 @@
+import 'package:alarm_app/model/menu_info.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class BuildMenuButton extends StatelessWidget {
-  BuildMenuButton({
-    super.key,
-    this.image,
-    this.title,
-  });
-  String? title, image;
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 16),
-      child: MaterialButton(
-        onPressed: () {},
+Widget buildMenuButton(MenuInfo currentMenuInfo) {
+  return Consumer<MenuInfo>(
+    builder: (BuildContext context, MenuInfo value, Widget? child) {
+      return MaterialButton(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            topRight: Radius.circular(32),
+          ),
+        ),
+        padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 0),
+        color: currentMenuInfo.menuType == value.menuType
+            ? Colors.red
+            : Colors.transparent,
+        onPressed: () {
+          var menuInfo = Provider.of<MenuInfo>(context, listen: false);
+          menuInfo.updateMenu(currentMenuInfo);
+        },
         child: Column(
-          children: [
+          children: <Widget>[
             Image.asset(
-              image!,
+              currentMenuInfo.imageSource!,
               scale: 1.5,
             ),
-            SizedBox(
-              height: 16,
-            ),
+            SizedBox(height: 16),
             Text(
-              title ?? '',
+              currentMenuInfo.title ?? '',
               style: TextStyle(
-                color: Colors.white,
-                fontSize: 14,
-                fontFamily: 'avenir',
-              ),
-            )
+                  fontFamily: 'avenir', color: Colors.white, fontSize: 14),
+            ),
           ],
         ),
-      ),
-    );
-  }
+      );
+    },
+  );
 }

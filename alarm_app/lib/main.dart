@@ -1,5 +1,8 @@
+import 'package:alarm_app/data/enum.dart';
+import 'package:alarm_app/model/menu_info.dart';
 import 'package:alarm_app/views/home_page.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   runApp(const AlarmApp());
@@ -10,9 +13,12 @@ class AlarmApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: HomePage(),
+      home: ChangeNotifierProvider<MenuInfo>(
+        create: (context) => MenuInfo(MenuType.clock),
+        child: HomePage(),
+      ),
     );
   }
 }
