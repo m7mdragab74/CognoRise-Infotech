@@ -1,5 +1,6 @@
 import 'package:alarm_app/data/data.dart';
 import 'package:alarm_app/data/enum.dart';
+import 'package:alarm_app/views/alarm_page.dart';
 import 'package:alarm_app/views/clock_page.dart';
 import 'package:alarm_app/widget/build_menu_button.dart';
 import 'package:flutter/material.dart';
@@ -31,6 +32,8 @@ class HomePage extends StatelessWidget {
               builder: (BuildContext context, MenuInfo value, Widget? child) {
                 if (value.menuType == MenuType.clock) {
                   return ClockPage();
+                } else if (value.menuType == MenuType.alarm) {
+                  return AlarmPage();
                 } else {
                   return Container(
                     child: RichText(
