@@ -16,7 +16,7 @@ class ClockPainter extends CustomPainter {
     var outLineBrush = Paint()
       ..color = Color(0xFFEAECFF)
       ..style = PaintingStyle.stroke
-      ..strokeWidth = 16;
+      ..strokeWidth = size.width / 20;
 
     var centerFillBrush = Paint()..color = Color(0xFFEAECFF);
 
@@ -24,7 +24,7 @@ class ClockPainter extends CustomPainter {
       ..color = Colors.orange
       ..style = PaintingStyle.stroke
       ..strokeCap = StrokeCap.round
-      ..strokeWidth = 8;
+      ..strokeWidth = size.width / 60;
     ;
 
     var minHandBrush = Paint()
@@ -32,7 +32,7 @@ class ClockPainter extends CustomPainter {
           .createShader(Rect.fromCircle(center: center, radius: radius))
       ..style = PaintingStyle.stroke
       ..strokeCap = StrokeCap.round
-      ..strokeWidth = 16;
+      ..strokeWidth = size.width / 30;
     ;
 
     var hourHandBrush = Paint()
@@ -40,7 +40,7 @@ class ClockPainter extends CustomPainter {
           .createShader(Rect.fromCircle(center: center, radius: radius))
       ..style = PaintingStyle.stroke
       ..strokeCap = StrokeCap.round
-      ..strokeWidth = 16;
+      ..strokeWidth = size.width / 24;
     ;
 
     var dashBrush = Paint()
@@ -48,25 +48,27 @@ class ClockPainter extends CustomPainter {
       ..style = PaintingStyle.stroke
       ..strokeWidth = 1;
 
-    canvas.drawCircle(center, radius - 40, fillBrush);
-    canvas.drawCircle(center, radius - 40, outLineBrush);
+    canvas.drawCircle(center, radius * 0.75, fillBrush);
+    canvas.drawCircle(center, radius * 0.75, outLineBrush);
 
-    var hourHandX = centerX + 60 * cos(dateTime.hour * 0.5 * pi / 180);
-    var hourHandY = centerX + 60 * sin(dateTime.hour * 0.5 * pi / 180);
+    var hourHandX =
+        centerX + radius * 0.4 * cos(dateTime.hour * 0.5 * pi / 180);
+    var hourHandY =
+        centerX + radius * 0.4 * sin(dateTime.hour * 0.5 * pi / 180);
     canvas.drawLine(center, Offset(hourHandX, hourHandY), hourHandBrush);
 
-    var menHandX = centerX + 80 * cos(dateTime.minute * 6 * pi / 180);
-    var menHandY = centerX + 80 * sin(dateTime.minute * 6 * pi / 180);
+    var menHandX = centerX + radius * 0.6 * cos(dateTime.minute * 6 * pi / 180);
+    var menHandY = centerX + radius * 0.6 * sin(dateTime.minute * 6 * pi / 180);
     canvas.drawLine(center, Offset(menHandX, menHandY), minHandBrush);
 
-    var secHandX = centerX + 80 * cos(dateTime.second * 6 * pi / 180);
-    var secHandY = centerX + 80 * sin(dateTime.second * 6 * pi / 180);
+    var secHandX = centerX + radius * 0.4 * cos(dateTime.second * 6 * pi / 180);
+    var secHandY = centerX + radius * 0.4 * sin(dateTime.second * 6 * pi / 180);
     canvas.drawLine(center, Offset(secHandX, secHandY), secHandBrush);
 
-    canvas.drawCircle(center, 16, centerFillBrush);
+    canvas.drawCircle(center, radius * 0.12, centerFillBrush);
 
     var outerCircleRadius = radius;
-    var innerCircleRadius = radius - 14;
+    var innerCircleRadius = radius * 0.9;
     for (double i = 0; i < 360; i += 12) {
       var x1 = centerX + outerCircleRadius * cos(i * pi / 180);
       var y1 = centerX + outerCircleRadius * sin(i * pi / 180);
