@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class TimePickerModal extends StatefulWidget {
-  final Function(bool) onSave;
+  final Function(DateTime, bool) onSave; // Accept DateTime in onSave
 
   const TimePickerModal({super.key, required this.onSave});
 
@@ -47,7 +47,7 @@ class _TimePickerModalState extends State<TimePickerModal> {
               value: _isRepeatSelected),
         ),
         FloatingActionButton.extended(
-          onPressed: () => widget.onSave(_isRepeatSelected),
+          onPressed: () => widget.onSave(_alarmTime!, _isRepeatSelected),
           icon: const Icon(Icons.alarm),
           label: const Text('Save'),
         ),

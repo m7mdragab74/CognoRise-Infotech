@@ -101,21 +101,21 @@ class _AlarmPageState extends State<AlarmPage> {
     }
   }
 
-  void onSaveAlarm(bool _isRepeating) {
+  void onSaveAlarm(DateTime selectedTime, bool isRepeating, String alarmName) {
     DateTime scheduleAlarmDateTime;
     if (_alarmTime.isAfter(DateTime.now())) {
-      scheduleAlarmDateTime = _alarmTime;
+      scheduleAlarmDateTime = selectedTime;
     } else {
-      scheduleAlarmDateTime = _alarmTime.add(const Duration(days: 1));
+      scheduleAlarmDateTime = selectedTime.add(const Duration(days: 1));
     }
 
     var alarmInfo = AlarmInfo(
       alarmDateTime: scheduleAlarmDateTime,
       gradientColorIndex: _currentAlarms.length,
-      title: 'alarm',
+      title: alarmName,
     );
     _alarmHelper.insertAlarm(alarmInfo);
-    scheduleAlarm(scheduleAlarmDateTime, alarmInfo, isRepeating: _isRepeating);
+    scheduleAlarm(scheduleAlarmDateTime, alarmInfo, isRepeating: isRepeating);
     Navigator.pop(context);
     loadAlarms();
   }
@@ -172,7 +172,9 @@ class _AlarmPageState extends State<AlarmPage> {
                   ),
                 ),
                 AddAlarmButton(
-                    onSave: onSaveAlarm, alarmCount: _currentAlarms.length),
+                    onSave: (selectedTime, isRepeating, alarmName) =>
+                        onSaveAlarm(selectedTime, isRepeating, alarmName),
+                    alarmCount: _currentAlarms.length),
               ],
             ),
           ),
