@@ -6,7 +6,7 @@ Widget buildMenuButton(MenuInfo currentMenuInfo) {
   return Consumer<MenuInfo>(
     builder: (BuildContext context, MenuInfo value, Widget? child) {
       return MaterialButton(
-        shape: RoundedRectangleBorder(
+        shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
             topRight: Radius.circular(32),
           ),
@@ -25,10 +25,10 @@ Widget buildMenuButton(MenuInfo currentMenuInfo) {
               currentMenuInfo.imageSource!,
               scale: 1.5,
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             Text(
               currentMenuInfo.title ?? '',
-              style: TextStyle(
+              style: const TextStyle(
                   fontFamily: 'avenir', color: Colors.white, fontSize: 14),
             ),
           ],

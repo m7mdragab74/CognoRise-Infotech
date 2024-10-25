@@ -58,7 +58,7 @@ class AlarmHelper {
   Future<List<AlarmInfo>> getAlarms() async {
     List<AlarmInfo> _alarms = [];
 
-    var db = await this.database;
+    var db = await database;
     var result = await db.query(tableAlarm);
     result.forEach((element) {
       var alarmInfo = AlarmInfo.fromMap(element);
@@ -69,7 +69,7 @@ class AlarmHelper {
   }
 
   Future<int> delete(int? id) async {
-    var db = await this.database;
+    var db = await database;
     return await db.delete(tableAlarm, where: '$columnId = ?', whereArgs: [id]);
   }
 }

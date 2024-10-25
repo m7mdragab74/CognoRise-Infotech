@@ -6,8 +6,8 @@ import 'package:intl/intl.dart';
 
 class DigitalClockWidget extends StatefulWidget {
   const DigitalClockWidget({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
   @override
   State<StatefulWidget> createState() {
     return DigitalClockWidgetState();
@@ -20,8 +20,9 @@ class DigitalClockWidgetState extends State<DigitalClockWidget> {
 
   @override
   void initState() {
-    this.timer = Timer.periodic(Duration(seconds: 1), (timer) {
-      var perviousMinute = DateTime.now().add(Duration(seconds: -1)).minute;
+    timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      var perviousMinute =
+          DateTime.now().add(const Duration(seconds: -1)).minute;
       var currentMinute = DateTime.now().minute;
       if (perviousMinute != currentMinute)
         setState(() {
@@ -33,7 +34,7 @@ class DigitalClockWidgetState extends State<DigitalClockWidget> {
 
   @override
   void dispose() {
-    this.timer.cancel();
+    timer.cancel();
     super.dispose();
   }
 

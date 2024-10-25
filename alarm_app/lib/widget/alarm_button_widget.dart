@@ -7,7 +7,8 @@ class AddAlarmButton extends StatelessWidget {
   final Function(bool) onSave;
   final int alarmCount;
 
-  AddAlarmButton({required this.onSave, required this.alarmCount});
+  const AddAlarmButton(
+      {super.key, required this.onSave, required this.alarmCount});
 
   @override
   Widget build(BuildContext context) {
@@ -16,21 +17,22 @@ class AddAlarmButton extends StatelessWidget {
             strokeWidth: 2,
             color: CustomColors.clockOutline,
             borderType: BorderType.RRect,
-            radius: Radius.circular(24),
-            dashPattern: [5, 4],
+            radius: const Radius.circular(24),
+            dashPattern: const [5, 4],
             child: Container(
               width: double.infinity,
               decoration: BoxDecoration(
                   color: CustomColors.clockBG,
-                  borderRadius: BorderRadius.all(Radius.circular(24))),
+                  borderRadius: const BorderRadius.all(Radius.circular(24))),
               child: MaterialButton(
-                padding: EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
                 onPressed: () {
                   showModalBottomSheet(
                     useRootNavigator: true,
                     context: context,
                     clipBehavior: Clip.antiAlias,
-                    shape: RoundedRectangleBorder(
+                    shape: const RoundedRectangleBorder(
                         borderRadius:
                             BorderRadius.vertical(top: Radius.circular(24))),
                     builder: (context) => TimePickerModal(onSave: onSave),
@@ -38,15 +40,15 @@ class AddAlarmButton extends StatelessWidget {
                 },
                 child: Column(children: <Widget>[
                   Image.asset('assets/images/add_alarm.png', scale: 1.5),
-                  SizedBox(height: 8),
-                  Text('Add Alarm',
+                  const SizedBox(height: 8),
+                  const Text('Add Alarm',
                       style:
                           TextStyle(color: Colors.white, fontFamily: 'avenir')),
                 ]),
               ),
             ),
           )
-        : Center(
+        : const Center(
             child: Text('Only 5 alarms allowed!',
                 style: TextStyle(color: Colors.white)));
   }

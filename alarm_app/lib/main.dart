@@ -11,9 +11,9 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   var initializationSettingsAndroid =
-      AndroidInitializationSettings('codex_logo');
+      const AndroidInitializationSettings('codex_logo');
 
-  var initializationSettingsIOS = DarwinInitializationSettings(
+  var initializationSettingsIOS = const DarwinInitializationSettings(
     requestAlertPermission: true,
     requestBadgePermission: true,
     requestSoundPermission: true,
@@ -45,7 +45,7 @@ class AlarmApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home: ChangeNotifierProvider<MenuInfo>(
         create: (context) => MenuInfo(MenuType.clock),
-        child: HomePage(),
+        child: const HomePage(),
       ),
     );
   }

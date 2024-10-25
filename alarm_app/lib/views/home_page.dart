@@ -14,7 +14,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xff2D2F41),
+      backgroundColor: const Color(0xff2D2F41),
       body: Row(
         children: [
           Column(
@@ -23,7 +23,7 @@ class HomePage extends StatelessWidget {
                 .map((currentMenuInfo) => buildMenuButton(currentMenuInfo))
                 .toList(),
           ),
-          VerticalDivider(
+          const VerticalDivider(
             color: Colors.white54,
             width: 1,
           ),
@@ -31,19 +31,19 @@ class HomePage extends StatelessWidget {
             child: Consumer<MenuInfo>(
               builder: (BuildContext context, MenuInfo value, Widget? child) {
                 if (value.menuType == MenuType.clock) {
-                  return ClockPage();
+                  return const ClockPage();
                 } else if (value.menuType == MenuType.alarm) {
-                  return AlarmPage();
+                  return const AlarmPage();
                 } else {
                   return Container(
                     child: RichText(
                       text: TextSpan(
-                        style: TextStyle(fontSize: 20),
+                        style: const TextStyle(fontSize: 20),
                         children: <TextSpan>[
-                          TextSpan(text: 'Upcoming Tutorial\n'),
+                          const TextSpan(text: 'Upcoming Tutorial\n'),
                           TextSpan(
                             text: value.title,
-                            style: TextStyle(fontSize: 48),
+                            style: const TextStyle(fontSize: 48),
                           ),
                         ],
                       ),

@@ -7,7 +7,7 @@ class AlarmListItem extends StatelessWidget {
   final AlarmInfo alarm;
   final Function(int?) onDelete;
 
-  AlarmListItem({required this.alarm, required this.onDelete});
+  const AlarmListItem({super.key, required this.alarm, required this.onDelete});
 
   @override
   Widget build(BuildContext context) {
@@ -15,8 +15,8 @@ class AlarmListItem extends StatelessWidget {
     var gradientColor =
         GradientTemplate.gradientTemplate[alarm.gradientColorIndex!].colors;
     return Container(
-      margin: EdgeInsets.only(bottom: 32),
-      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      margin: const EdgeInsets.only(bottom: 32),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       decoration: BoxDecoration(
         gradient: LinearGradient(
             colors: gradientColor,
@@ -27,33 +27,34 @@ class AlarmListItem extends StatelessWidget {
               color: gradientColor.last.withOpacity(0.4),
               blurRadius: 8,
               spreadRadius: 2,
-              offset: Offset(4, 4))
+              offset: const Offset(4, 4))
         ],
-        borderRadius: BorderRadius.all(Radius.circular(24)),
+        borderRadius: const BorderRadius.all(Radius.circular(24)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
             Row(children: [
-              Icon(Icons.label, color: Colors.white, size: 24),
-              SizedBox(width: 8),
+              const Icon(Icons.label, color: Colors.white, size: 24),
+              const SizedBox(width: 8),
               Text(alarm.title!,
-                  style: TextStyle(color: Colors.white, fontFamily: 'avenir')),
+                  style: const TextStyle(
+                      color: Colors.white, fontFamily: 'avenir')),
             ]),
             Switch(onChanged: (_) {}, value: true, activeColor: Colors.white),
           ]),
-          Text('Mon-Fri',
+          const Text('Mon-Fri',
               style: TextStyle(color: Colors.white, fontFamily: 'avenir')),
           Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
             Text(alarmTime,
-                style: TextStyle(
+                style: const TextStyle(
                     color: Colors.white,
                     fontFamily: 'avenir',
                     fontSize: 24,
                     fontWeight: FontWeight.w700)),
             IconButton(
-                icon: Icon(Icons.delete),
+                icon: const Icon(Icons.delete),
                 color: Colors.white,
                 onPressed: () => onDelete(alarm.id)),
           ]),

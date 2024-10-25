@@ -9,6 +9,8 @@ import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 
 class AlarmPage extends StatefulWidget {
+  const AlarmPage({super.key});
+
   @override
   _AlarmPageState createState() => _AlarmPageState();
 }
@@ -29,7 +31,7 @@ class _AlarmPageState extends State<AlarmPage> {
     flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
     const androidInitSettings = AndroidInitializationSettings('codex_logo');
-    final iOSInitSettings = DarwinInitializationSettings();
+    final iOSInitSettings = const DarwinInitializationSettings();
     final initSettings = InitializationSettings(
       android: androidInitSettings,
       iOS: iOSInitSettings,
@@ -53,7 +55,7 @@ class _AlarmPageState extends State<AlarmPage> {
 
   void scheduleAlarm(DateTime scheduledDateTime, AlarmInfo alarmInfo,
       {required bool isRepeating}) async {
-    var androidDetails = AndroidNotificationDetails(
+    var androidDetails = const AndroidNotificationDetails(
       'alarm_notif',
       'alarm_notif',
       channelDescription: 'Channel for Alarm notification',
@@ -62,7 +64,7 @@ class _AlarmPageState extends State<AlarmPage> {
       largeIcon: DrawableResourceAndroidBitmap('codex_logo'),
     );
 
-    var iOSDetails = DarwinNotificationDetails(
+    var iOSDetails = const DarwinNotificationDetails(
       sound: 'a_long_cold_sting.wav',
       presentAlert: true,
       presentBadge: true,
@@ -101,10 +103,11 @@ class _AlarmPageState extends State<AlarmPage> {
 
   void onSaveAlarm(bool _isRepeating) {
     DateTime scheduleAlarmDateTime;
-    if (_alarmTime.isAfter(DateTime.now()))
+    if (_alarmTime.isAfter(DateTime.now())) {
       scheduleAlarmDateTime = _alarmTime;
-    else
-      scheduleAlarmDateTime = _alarmTime.add(Duration(days: 1));
+    } else {
+      scheduleAlarmDateTime = _alarmTime.add(const Duration(days: 1));
+    }
 
     var alarmInfo = AlarmInfo(
       alarmDateTime: scheduleAlarmDateTime,
@@ -127,7 +130,7 @@ class _AlarmPageState extends State<AlarmPage> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 32, vertical: 64),
+      padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 64),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -148,9 +151,10 @@ class _AlarmPageState extends State<AlarmPage> {
                     future: _alarms,
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
-                        return Center(child: CircularProgressIndicator());
+                        return const Center(child: CircularProgressIndicator());
                       } else if (snapshot.hasError) {
-                        return Center(child: Text('Error loading alarms'));
+                        return const Center(
+                            child: Text('Error loading alarms'));
                       } else if (snapshot.hasData &&
                           snapshot.data!.isNotEmpty) {
                         _currentAlarms = snapshot.data!;
@@ -161,7 +165,7 @@ class _AlarmPageState extends State<AlarmPage> {
                               .toList(),
                         );
                       }
-                      return Center(
+                      return const Center(
                           child: Text('No alarms set',
                               style: TextStyle(color: Colors.white)));
                     },

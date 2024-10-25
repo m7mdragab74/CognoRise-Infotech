@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class ClockPage extends StatefulWidget {
+  const ClockPage({super.key});
+
   @override
   _ClockPageState createState() => _ClockPageState();
 }
@@ -20,7 +22,7 @@ class _ClockPageState extends State<ClockPage> {
     if (!timezoneString.startsWith('-')) offsetSign = '+';
 
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 32, vertical: 64),
+      padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 64),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -41,7 +43,7 @@ class _ClockPageState extends State<ClockPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                DigitalClockWidget(),
+                const DigitalClockWidget(),
                 Text(
                   formattedDate,
                   style: TextStyle(
@@ -77,14 +79,14 @@ class _ClockPageState extends State<ClockPage> {
                       color: CustomColors.primaryTextColor,
                       fontSize: 24),
                 ),
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
                 Row(
                   children: <Widget>[
                     Icon(
                       Icons.language,
                       color: CustomColors.primaryTextColor,
                     ),
-                    SizedBox(width: 16),
+                    const SizedBox(width: 16),
                     Text(
                       'EGY' + offsetSign + timezoneString,
                       style: TextStyle(

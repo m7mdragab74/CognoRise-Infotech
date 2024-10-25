@@ -11,14 +11,14 @@ class ClockPainter extends CustomPainter {
     var centerY = size.height / 2;
     var center = Offset(centerX, centerY);
     var radius = min(centerX, centerY);
-    var fillBrush = Paint()..color = Color(0xff444974);
+    var fillBrush = Paint()..color = const Color(0xff444974);
 
     var outLineBrush = Paint()
-      ..color = Color(0xFFEAECFF)
+      ..color = const Color(0xFFEAECFF)
       ..style = PaintingStyle.stroke
       ..strokeWidth = size.width / 20;
 
-    var centerFillBrush = Paint()..color = Color(0xFFEAECFF);
+    var centerFillBrush = Paint()..color = const Color(0xFFEAECFF);
 
     var secHandBrush = Paint()
       ..color = Colors.orange
@@ -28,23 +28,25 @@ class ClockPainter extends CustomPainter {
     ;
 
     var minHandBrush = Paint()
-      ..shader = RadialGradient(colors: [Color(0xff748EF6), Color(0xff77DDFF)])
-          .createShader(Rect.fromCircle(center: center, radius: radius))
+      ..shader =
+          const RadialGradient(colors: [Color(0xff748EF6), Color(0xff77DDFF)])
+              .createShader(Rect.fromCircle(center: center, radius: radius))
       ..style = PaintingStyle.stroke
       ..strokeCap = StrokeCap.round
       ..strokeWidth = size.width / 30;
     ;
 
     var hourHandBrush = Paint()
-      ..shader = RadialGradient(colors: [Color(0xffEA74AB), Color(0xffC279FB)])
-          .createShader(Rect.fromCircle(center: center, radius: radius))
+      ..shader =
+          const RadialGradient(colors: [Color(0xffEA74AB), Color(0xffC279FB)])
+              .createShader(Rect.fromCircle(center: center, radius: radius))
       ..style = PaintingStyle.stroke
       ..strokeCap = StrokeCap.round
       ..strokeWidth = size.width / 24;
     ;
 
     var dashBrush = Paint()
-      ..color = Color(0xFFEAECFF)
+      ..color = const Color(0xFFEAECFF)
       ..style = PaintingStyle.stroke
       ..strokeWidth = 1;
 

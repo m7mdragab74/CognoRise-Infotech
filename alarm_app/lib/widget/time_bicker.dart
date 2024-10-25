@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 class TimePickerModal extends StatefulWidget {
   final Function(bool) onSave;
 
-  TimePickerModal({required this.onSave});
+  const TimePickerModal({super.key, required this.onSave});
 
   @override
   _TimePickerModalState createState() => _TimePickerModalState();
@@ -24,7 +24,7 @@ class _TimePickerModalState extends State<TimePickerModal> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(32),
+      padding: const EdgeInsets.all(32),
       child: Column(children: [
         TextButton(
           onPressed: () async {
@@ -38,18 +38,18 @@ class _TimePickerModalState extends State<TimePickerModal> {
                   _alarmTimeString = DateFormat('HH:mm').format(_alarmTime!));
             }
           },
-          child: Text(_alarmTimeString, style: TextStyle(fontSize: 32)),
+          child: Text(_alarmTimeString, style: const TextStyle(fontSize: 32)),
         ),
         ListTile(
-          title: Text('Repeat'),
+          title: const Text('Repeat'),
           trailing: Switch(
               onChanged: (value) => setState(() => _isRepeatSelected = value),
               value: _isRepeatSelected),
         ),
         FloatingActionButton.extended(
           onPressed: () => widget.onSave(_isRepeatSelected),
-          icon: Icon(Icons.alarm),
-          label: Text('Save'),
+          icon: const Icon(Icons.alarm),
+          label: const Text('Save'),
         ),
       ]),
     );
