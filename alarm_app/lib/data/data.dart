@@ -1,5 +1,4 @@
 import 'package:alarm_app/data/enum.dart';
-import 'package:alarm_app/data/theme_data.dart';
 import 'package:alarm_app/model/alarm_info.dart';
 import 'package:alarm_app/model/menu_info.dart';
 
@@ -16,17 +15,11 @@ List<MenuInfo> menuList = [
 
 List<AlarmInfo> alarms = [
   AlarmInfo(
-    DateTime.now().add(
-      Duration(hours: 1),
-    ),
-    description: 'Office',
-    gradientColors: GradientColors.sky,
-  ),
+      alarmDateTime: DateTime.now().add(Duration(hours: 1)),
+      title: 'Office',
+      gradientColorIndex: 0),
   AlarmInfo(
-    DateTime.now().add(
-      Duration(hours: 1),
-    ),
-    description: 'Sport',
-    gradientColors: GradientColors.mango,
-  ),
+      alarmDateTime: DateTime.now().add(Duration(hours: 2)),
+      title: 'Sport',
+      gradientColorIndex: 1),
 ];

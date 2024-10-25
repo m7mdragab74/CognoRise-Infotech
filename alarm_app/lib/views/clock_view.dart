@@ -1,35 +1,48 @@
 import 'dart:async';
 import 'dart:math';
 
-import 'package:alarm_app/widget/clock_painter.dart';
 import 'package:flutter/material.dart';
 
+import '../widget/clock_painter.dart';
+
 class ClockView extends StatefulWidget {
-  final double size;
-  ClockView({super.key, required this.size});
+  final double? size;
+
+  const ClockView({Key? key, this.size}) : super(key: key);
 
   @override
-  State<ClockView> createState() => _ClockViewState();
+  _ClockViewState createState() => _ClockViewState();
 }
 
 class _ClockViewState extends State<ClockView> {
+  late Timer timer;
+
   @override
   void initState() {
-    Timer.periodic(Duration(seconds: 1), (timer) {
+    this.timer = Timer.periodic(Duration(seconds: 1), (timer) {
       setState(() {});
     });
     super.initState();
   }
 
   @override
+  void dispose() {
+    this.timer.cancel();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Container(
-      width: widget.size,
-      height: widget.size,
-      child: Transform.rotate(
-        angle: -pi / 2,
-        child: CustomPaint(
-          painter: ClockPainter(),
+    return Align(
+      alignment: Alignment.topCenter,
+      child: Container(
+        width: widget.size,
+        height: widget.size,
+        child: Transform.rotate(
+          angle: -pi / 2,
+          child: CustomPaint(
+            painter: ClockPainter(),
+          ),
         ),
       ),
     );
