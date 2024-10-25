@@ -1,11 +1,11 @@
 import 'package:alarm_app/data/theme_data.dart';
 import 'package:alarm_app/helper/alarm_helper.dart';
-import 'package:alarm_app/main.dart';
 import 'package:alarm_app/model/alarm_info.dart';
 import 'package:alarm_app/widget/alarm_button_widget.dart';
 import 'package:alarm_app/widget/alarm_item_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:timezone/data/latest_all.dart' as tz;
 import 'package:timezone/timezone.dart' as tz;
 
 class AlarmPage extends StatefulWidget {
@@ -14,16 +14,36 @@ class AlarmPage extends StatefulWidget {
 }
 
 class _AlarmPageState extends State<AlarmPage> {
-  DateTime? _alarmTime;
-  AlarmHelper _alarmHelper = AlarmHelper();
+  late FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
+  late DateTime _alarmTime;
+  late AlarmHelper _alarmHelper;
   Future<List<AlarmInfo>>? _alarms;
-  List<AlarmInfo>? _currentAlarms;
-
+  List<AlarmInfo> _currentAlarms = [];
   @override
   void initState() {
     super.initState();
+    tz.initializeTimeZones();
+    _alarmHelper = AlarmHelper();
     _alarmTime = DateTime.now();
-    _alarmHelper.initializeDatabase().then((_) => loadAlarms());
+
+    flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+
+    const androidInitSettings = AndroidInitializationSettings('codex_logo');
+    final iOSInitSettings = DarwinInitializationSettings();
+    final initSettings = InitializationSettings(
+      android: androidInitSettings,
+      iOS: iOSInitSettings,
+    );
+
+    flutterLocalNotificationsPlugin.initialize(initSettings).then((_) {
+      _alarmHelper.initializeDatabase().then((_) {
+        loadAlarms();
+      }).catchError((error) {
+        print('Error initializing database: $error');
+      });
+    }).catchError((error) {
+      print('Error initializing notifications plugin: $error');
+    });
   }
 
   void loadAlarms() {
@@ -79,21 +99,22 @@ class _AlarmPageState extends State<AlarmPage> {
     }
   }
 
-  void onSaveAlarm(bool isRepeating) {
-    if (_alarmTime != null && _currentAlarms != null) {
-      DateTime scheduleAlarmDateTime = _alarmTime!.isAfter(DateTime.now())
-          ? _alarmTime!
-          : _alarmTime!.add(Duration(days: 1));
-      var alarmInfo = AlarmInfo(
-        alarmDateTime: scheduleAlarmDateTime,
-        gradientColorIndex: _currentAlarms!.length,
-        title: 'alarm',
-      );
-      _alarmHelper.insertAlarm(alarmInfo);
-      scheduleAlarm(scheduleAlarmDateTime, alarmInfo, isRepeating: isRepeating);
-      Navigator.pop(context);
-      loadAlarms();
-    }
+  void onSaveAlarm(bool _isRepeating) {
+    DateTime scheduleAlarmDateTime;
+    if (_alarmTime.isAfter(DateTime.now()))
+      scheduleAlarmDateTime = _alarmTime;
+    else
+      scheduleAlarmDateTime = _alarmTime.add(Duration(days: 1));
+
+    var alarmInfo = AlarmInfo(
+      alarmDateTime: scheduleAlarmDateTime,
+      gradientColorIndex: _currentAlarms.length,
+      title: 'alarm',
+    );
+    _alarmHelper.insertAlarm(alarmInfo);
+    scheduleAlarm(scheduleAlarmDateTime, alarmInfo, isRepeating: _isRepeating);
+    Navigator.pop(context);
+    loadAlarms();
   }
 
   void deleteAlarm(int? id) {
@@ -134,7 +155,7 @@ class _AlarmPageState extends State<AlarmPage> {
                           snapshot.data!.isNotEmpty) {
                         _currentAlarms = snapshot.data!;
                         return ListView(
-                          children: _currentAlarms!
+                          children: _currentAlarms
                               .map((alarm) => AlarmListItem(
                                   alarm: alarm, onDelete: deleteAlarm))
                               .toList(),
@@ -147,8 +168,7 @@ class _AlarmPageState extends State<AlarmPage> {
                   ),
                 ),
                 AddAlarmButton(
-                    onSave: onSaveAlarm,
-                    alarmCount: _currentAlarms?.length ?? 0),
+                    onSave: onSaveAlarm, alarmCount: _currentAlarms.length),
               ],
             ),
           ),
